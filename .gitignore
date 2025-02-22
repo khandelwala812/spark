@@ -17,6 +17,7 @@ ui/out/
 ui/build
 
 # misc
+ui/.vscode
 ui/.DS_Store
 ui/*.pem
 
