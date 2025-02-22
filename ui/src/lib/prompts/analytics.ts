@@ -4,7 +4,7 @@ export const SYSTEM_PROMPT =
 export const getInterviewAnalyticsPrompt = (
   interviewTranscript: string,
   mainInterviewQuestions: string,
-) => `Analyse the following interview transcript and provide structured feedback:
+) => `Analyze the following interview transcript and provide structured feedback:
 
 ###
 Transcript: ${interviewTranscript}
@@ -28,7 +28,7 @@ Based on this transcript and the provided main interview questions, generate the
    - Consistency: Evaluate if the interviewee's answers are consistent throughout the interview or if they contradict themselves.
    - Adaptability: Assess how well the interviewee adapts to different types of questions, including unexpected or challenging ones.
 
-2. Communication Skills: Score (0-10) and Feedback (60 words). Rating system and guidleines for communication skills is as follwing.
+2. Communication Skills: Score (0-10) and Feedback (60 words). Rating system and guidelines for communication skills is as follwing.
     - 10: Fully operational command, use of English is appropriate, accurate, fluent, shows complete understanding.
     - 09: Fully operational command with occasional inaccuracies and inappropriate usage. May misunderstand unfamiliar situations but handles complex arguments well.
     - 08: Operational command with occasional inaccuracies, inappropriate usage, and misunderstandings. Handles complex language and detailed reasoning well.
@@ -41,7 +41,7 @@ Based on this transcript and the provided main interview questions, generate the
     - 01: Did not answer the questions.
 3. Summary for each main interview question: ${mainInterviewQuestions}
    - Use ONLY the main questions provided, it should output all the questions with the numbers even if it's not found in the transcript.
-   - Follow the below rules when outputing the question and summary
+   - Follow the below rules when outputting the question and summary
       - If a main interview question isn't found in the transcript, then output the main question and give the summary as "Not Asked"
       - If a main interview question is found in the transcript but an answer couldn't be found, then output the main question and give the summary as "Not Answered"
       - If a main interview question is found in the transcript and an answer can also be found, then,

@@ -7,6 +7,7 @@ import {
   CheckCircleIcon,
 } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { useResponses } from "@/contexts/responses.context";
@@ -19,8 +20,6 @@ import { isLightColor, testEmail } from "@/lib/utils";
 import { ResponseService } from "@/services/responses.service";
 import { Interview } from "@/types/interview";
 import { FeedbackData } from "@/types/response";
-import { FeedbackService } from "@/services/feedback.service";
-import { FeedbackForm } from "@/components/call/feedbackForm";
 import {
   TabSwitchWarning,
   useTabSwitchPrevention,
@@ -59,6 +58,7 @@ type transcriptType = {
 };
 
 function Call({ interview }: InterviewProps) {
+  const router = useRouter();
   const { createResponse } = useResponses();
   const [lastInterviewerResponse, setLastInterviewerResponse] =
     useState<string>("");
@@ -82,29 +82,7 @@ function Call({ interview }: InterviewProps) {
   const [time, setTime] = useState(0);
   const [currentTimeDuration, setCurrentTimeDuration] = useState<string>("0");
 
-  const lastUserResponseRef = useRef<HTMLDivElement | null>(null);
-
-  const handleFeedbackSubmit = async (
-    formData: Omit<FeedbackData, "interview_id">,
-  ) => {
-    try {
-      const result = await FeedbackService.submitFeedback({
-        ...formData,
-        interview_id: interview.id,
-      });
-
-      if (result) {
-        toast.success("Thank you for your feedback!");
-        setIsFeedbackSubmitted(true);
-        setIsDialogOpen(false);
-      } else {
-        toast.error("Failed to submit feedback. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error submitting feedback:", error);
-      toast.error("An error occurred. Please try again later.");
-    }
-  };
+  const lastUserResponseRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     if (lastUserResponseRef.current) {
@@ -195,6 +173,7 @@ function Call({ interview }: InterviewProps) {
   };
 
   const startConversation = async () => {
+    console.log('INTERVIEW', interview)
     const data = {
       mins: interview?.time_duration,
       objective: interview?.objective,
@@ -203,45 +182,38 @@ function Call({ interview }: InterviewProps) {
     };
     setLoading(true);
 
-    const oldUserEmails: string[] = (
-      await ResponseService.getAllEmails(interview.id)
-    ).map((item) => item.email);
-    const OldUser =
-      oldUserEmails.includes(email) ||
-      (interview?.respondents && !interview?.respondents.includes(email));
+    const registerCallResponse: registerCallResponseType = await axios.post(
+      "/api/register-call",
+      { dynamic_data: data, interviewer_id: interview?.interviewer_id },
+    );
+    if (registerCallResponse.data.registerCallResponse.access_token) {
+      await webClient
+        .startCall({
+          accessToken:
+            registerCallResponse.data.registerCallResponse.access_token,
+        })
+        .catch(console.error);
+      setIsCalling(true);
+      setIsStarted(true);
 
-    if (OldUser) {
-      setIsOldUser(true);
+      setCallId(registerCallResponse?.data?.registerCallResponse?.call_id);
+
+      await createResponse({
+        interview_id: interview.id,
+        call_id: registerCallResponse.data.registerCallResponse.call_id,
+        email,
+        name,
+      });
     } else {
-      const registerCallResponse: registerCallResponseType = await axios.post(
-        "/api/register-call",
-        { dynamic_data: data, interviewer_id: interview?.interviewer_id },
-      );
-      if (registerCallResponse.data.registerCallResponse.access_token) {
-        await webClient
-          .startCall({
-            accessToken:
-              registerCallResponse.data.registerCallResponse.access_token,
-          })
-          .catch(console.error);
-        setIsCalling(true);
-        setIsStarted(true);
-
-        setCallId(registerCallResponse?.data?.registerCallResponse?.call_id);
-
-        const response = await createResponse({
-          interview_id: interview.id,
-          call_id: registerCallResponse.data.registerCallResponse.call_id,
-          email: email,
-          name: name,
-        });
-      } else {
-        console.log("Failed to register call");
-      }
+      console.log("Failed to register call");
     }
 
     setLoading(false);
   };
+
+  const navigateToAnalysisPage = () => {
+    router.push(`/interviews/${interview.id}`)
+  }
 
   useEffect(() => {
     if (interview?.time_duration) {
@@ -262,6 +234,7 @@ function Call({ interview }: InterviewProps) {
 
   useEffect(() => {
     if (isEnded) {
+      // TODO: update interview.is_active to false
       const updateInterview = async () => {
         await ResponseService.saveResponse(
           { is_ended: true, tab_switch_count: tabSwitchCount },
@@ -276,7 +249,7 @@ function Call({ interview }: InterviewProps) {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      {isStarted && <TabSwitchWarning />}
+      {isStarted && <TabSwitchWarning isEnded={isEnded} />}
       <div className="bg-white rounded-md md:w-[80%] w-[90%]">
         <Card className="h-[88vh] rounded-lg border-2 border-b-4 border-r-4 border-black text-xl font-bold transition-all  md:block dark:border-white ">
           <div>
@@ -339,29 +312,8 @@ function Call({ interview }: InterviewProps) {
                       {"\n"}Ensure your volume is up and grant microphone access
                       when prompted. Additionally, please make sure you are in a
                       quiet environment.
-                      {"\n\n"}Note: Tab switching will be recorded.
                     </p>
                   </div>
-                  {!interview?.is_anonymous && (
-                    <div className="flex flex-col gap-2 justify-center">
-                      <div className="flex justify-center">
-                        <input
-                          value={email}
-                          className="h-fit mx-auto py-2 border-2 rounded-md w-[75%] self-center px-2 border-gray-400 text-sm font-normal"
-                          placeholder="Enter your email address"
-                          onChange={(e) => setEmail(e.target.value)}
-                        />
-                      </div>
-                      <div className="flex justify-center">
-                        <input
-                          value={name}
-                          className="h-fit mb-4 mx-auto py-2 border-2 rounded-md w-[75%] self-center px-2 border-gray-400 text-sm font-normal"
-                          placeholder="Enter your first name"
-                          onChange={(e) => setName(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                  )}
                 </div>
                 <div className="w-[80%] flex flex-row mx-auto justify-center items-center align-middle">
                   <Button
@@ -372,15 +324,12 @@ function Call({ interview }: InterviewProps) {
                         ? "black"
                         : "white",
                     }}
-                    disabled={
-                      Loading ||
-                      (!interview?.is_anonymous && (!isValidEmail || !name))
-                    }
+                    disabled={Loading}
                     onClick={startConversation}
                   >
                     {!Loading ? "Start Interview" : <MiniLoader />}
                   </Button>
-                  <AlertDialog>
+                  {/* <AlertDialog>
                     <AlertDialogTrigger>
                       <Button
                         className="bg-white border ml-2 text-black min-w-15 h-10 rounded-lg flex flex-row justify-center mb-8"
@@ -406,7 +355,7 @@ function Call({ interview }: InterviewProps) {
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
-                  </AlertDialog>
+                  </AlertDialog> */}
                 </div>
               </div>
             )}
@@ -499,44 +448,29 @@ function Call({ interview }: InterviewProps) {
             {isEnded && !isOldUser && (
               <div className="w-fit min-w-[400px] max-w-[400px] mx-auto mt-2  border border-indigo-200 rounded-md p-2 m-2 bg-slate-50  absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
                 <div>
-                  <div className="p-2 font-normal text-base mb-4 whitespace-pre-line">
+                  <div className="p-2 font-normal text-base whitespace-pre-line">
                     <CheckCircleIcon className="h-[2rem] w-[2rem] mx-auto my-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-indigo-500 " />
-                    <p className="text-lg font-semibold text-center">
-                      {isStarted
-                        ? `Thank you for taking the time to participate in this interview`
-                        : "Thank you very much for considering."}
+                    <p className="text-lg font-semibold text-center m-0 p-0">
+                      {`You have completed ${interview.name}!`}
                     </p>
-                    <p className="text-center">
-                      {"\n"}
-                      You can close this tab now.
+                    <p className="text-center m-0 p-0">
+                      Continue to see your results.
                     </p>
                   </div>
-
-                  {!isFeedbackSubmitted && (
-                    <AlertDialog
-                      open={isDialogOpen}
-                      onOpenChange={setIsDialogOpen}
+                  
+                  <div className="flex flex-row w-full justify-center items-center space-x-24">
+                    <Button
+                      className="bg-indigo-600 text-white h-10 mt-2 mb-4"
+                      onClick={navigateToAnalysisPage}
                     >
-                      <AlertDialogTrigger className="w-full flex justify-center">
-                        <Button
-                          className="bg-indigo-600 text-white h-10 mt-4 mb-4"
-                          onClick={() => setIsDialogOpen(true)}
-                        >
-                          Provide Feedback
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <FeedbackForm
-                          email={email}
-                          onSubmit={handleFeedbackSubmit}
-                        />
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  )}
+                      Analyze
+                    </Button>
+                  </div>
                 </div>
               </div>
             )}
-            {isOldUser && (
+            {/* Change to interview.is_active */}
+            {/* {isOldUser && (
               <div className="w-fit min-w-[400px] max-w-[400px] mx-auto mt-2  border border-indigo-200 rounded-md p-2 m-2 bg-slate-50  absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
                 <div>
                   <div className="p-2 font-normal text-base mb-4 whitespace-pre-line">
@@ -552,7 +486,7 @@ function Call({ interview }: InterviewProps) {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </Card>
         <a

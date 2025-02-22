@@ -9,6 +9,10 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
+interface TabSwitchWarningProps {
+  isEnded: boolean;
+};
+
 const useTabSwitchPrevention = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [tabSwitchCount, setTabSwitchCount] = useState(0);
@@ -35,8 +39,10 @@ const useTabSwitchPrevention = () => {
   return { isDialogOpen, tabSwitchCount, handleUnderstand };
 };
 
-function TabSwitchWarning() {
+function TabSwitchWarning({ isEnded }: TabSwitchWarningProps) {
   const { isDialogOpen, handleUnderstand } = useTabSwitchPrevention();
+
+  if (isEnded) return null;
 
   return (
     <AlertDialog open={isDialogOpen}>

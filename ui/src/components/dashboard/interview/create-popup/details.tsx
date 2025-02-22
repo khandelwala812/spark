@@ -38,16 +38,10 @@ function DetailsPopup({
   fileName,
   setFileName,
 }: Props) {
-  const { interviewers } = useInterviewers();
   const router = useRouter();
   const [isClicked, setIsClicked] = useState(false);
-  const [openInterviewerDetails, setOpenInterviewerDetails] = useState(false);
-  const [interviewerDetails, setInterviewerDetails] = useState<Interviewer>();
 
   const [name, setName] = useState(interviewData.name);
-  const [selectedInterviewer, setSelectedInterviewer] = useState(
-    interviewData.interviewer_id,
-  );
   const [objective, setObjective] = useState(interviewData.objective);
   const [isAnonymous, setIsAnonymous] = useState<boolean>(
     interviewData.is_anonymous,
@@ -60,17 +54,26 @@ function DetailsPopup({
   const [duration, setDuration] = useState(interviewData.time_duration);
   const [uploadedDocumentContext, setUploadedDocumentContext] = useState("");
 
-  const slideLeft = (id: string, value: number) => {
-    var slider = document.getElementById(`${id}`);
-    if (slider) {
-      slider.scrollLeft = slider.scrollLeft - value;
-    }
-  };
+  const onSave = async (updatedInterviewData) => {
+    try {
+      updatedInterviewData.user_id = '1';
 
-  const slideRight = (id: string, value: number) => {
-    var slider = document.getElementById(`${id}`);
-    if (slider) {
-      slider.scrollLeft = slider.scrollLeft + value;
+      // Convert BigInts to strings if necessary
+      const sanitizedInterviewData = {
+        ...updatedInterviewData,
+        interviewer_id: interviewData.interviewer_id.toString(),
+      };
+
+      console.log("SANITIZED INTERVIEW DATA", sanitizedInterviewData)
+
+      await axios.post("/api/create-interview", {
+        interviewData: sanitizedInterviewData,
+      });
+      setIsClicked(false);
+      // setOpen(false);
+      router.push(`/call/${interviewData.user_id}`)
+    } catch (error) {
+      console.error("Error creating interview:", error);
     }
   };
 
@@ -83,6 +86,8 @@ function DetailsPopup({
       number: numQuestions,
       context: uploadedDocumentContext,
     };
+
+    console.log("DATA", data)
 
     const generatedQuestions = (await axios.post(
       "/api/generate-interview-questions",
@@ -101,19 +106,23 @@ function DetailsPopup({
       }),
     );
 
+    console.log("GENERATED QUESTIONS", updatedQuestions)
+
     const updatedInterviewData = {
       ...interviewData,
       name: name.trim(),
       objective: objective.trim(),
       questions: updatedQuestions,
-      interviewer_id: selectedInterviewer,
+      interviewer_id: BigInt(1),
       question_count: Number(numQuestions),
       time_duration: duration,
       description: generatedQuestionsResponse.description,
       is_anonymous: isAnonymous,
     };
     setInterviewData(updatedInterviewData);
-    router.push('/interview/1');
+    console.log("INTERVIEW DATA", updatedInterviewData)
+
+    await onSave(updatedInterviewData); 
   };
 
   const onManual = () => {
@@ -124,7 +133,7 @@ function DetailsPopup({
       name: name.trim(),
       objective: objective.trim(),
       questions: [{ id: uuidv4(), question: "", follow_up_count: 1 }],
-      interviewer_id: selectedInterviewer,
+      interviewer_id: BigInt(1),
       question_count: Number(numQuestions),
       time_duration: String(duration),
       description: "",
@@ -136,7 +145,6 @@ function DetailsPopup({
   useEffect(() => {
     if (!open) {
       setName("");
-      setSelectedInterviewer(BigInt(0));
       setObjective("");
       setIsAnonymous(false);
       setNumQuestions("");
@@ -230,7 +238,7 @@ function DetailsPopup({
             onBlur={(e) => setObjective(e.target.value.trim())}
           />
           <h3 className="text-sm font-medium mt-2">
-            Upload any documents related to the interview.
+            Upload your resume. 
           </h3>
           <FileUpload
             isUploaded={isUploaded}
@@ -239,27 +247,6 @@ function DetailsPopup({
             setFileName={setFileName}
             setUploadedDocumentContext={setUploadedDocumentContext}
           />
-          <label className="flex-col mt-7 w-full">
-            {/* <div className="flex items-center cursor-pointer">
-              <span className="text-sm font-medium">
-                Do you prefer the interviewees&apos; responses to be anonymous?
-              </span>
-              <Switch
-                checked={isAnonymous}
-                className={`ml-4 mt-1 ${
-                  isAnonymous ? "bg-indigo-600" : "bg-[#E6E7EB]"
-                }`}
-                onCheckedChange={(checked) => setIsAnonymous(checked)}
-              />
-            </div> */}
-            {/* <span
-              style={{ fontSize: "0.7rem", lineHeight: "0.66rem" }}
-              className="font-light text-xs italic w-full text-left block"
-            >
-              Note: If not anonymous, the interviewee&apos;s email and name will
-              be collected.
-            </span> */}
-          </label>
           <div className="flex flex-row gap-3 justify-between w-full mt-3">
             <div className="flex flex-row justify-center items-center ">
               <h3 className="text-sm font-medium ">Number of Questions:</h3>
@@ -364,15 +351,6 @@ function DetailsPopup({
           </div>
         </div>
       </div>
-      <Modal
-        open={openInterviewerDetails}
-        closeOnOutsideClick={true}
-        onClose={() => {
-          setOpenInterviewerDetails(false);
-        }}
-      >
-        <InterviewerDetailsModal interviewer={interviewerDetails} />
-      </Modal>
     </>
   );
 }

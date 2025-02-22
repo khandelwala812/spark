@@ -85,16 +85,12 @@ function InterviewInterface({ params }: Props) {
   const [isActive, setIsActive] = useState(true);
   const { getInterviewById } = useInterviews();
   const [interviewNotFound, setInterviewNotFound] = useState(false);
-  useEffect(() => {
-    if (interview) {
-      setIsActive(interview?.is_active === true);
-    }
-  }, [interview, params.interviewId]);
 
   useEffect(() => {
     const fetchInterview = async () => {
       try {
         const response = await getInterviewById(params.interviewId);
+        console.log('RESPONSE', response)
         if (response) {
           setInterview(response);
           document.title = response.name;
