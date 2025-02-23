@@ -29,7 +29,7 @@ export const PauseBar = ({ numPauses } : PauseBarProps) => {
       </p>
       {/* <div className="flex gap-2 align-middle"> */}
       <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={[{ name: '', value: numPauses }]}>
+        <BarChart data={[{ name: '', value: Math.min(numPauses, 50) }]}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           <YAxis domain={[0, 50]} />
@@ -39,7 +39,7 @@ export const PauseBar = ({ numPauses } : PauseBarProps) => {
       </ResponsiveContainer>
       {/* </div> */}
       <div className="font-medium ">
-        <span className="font-normal">The interviewee paused {numPauses} times. Any 1+ second gap between speaking counts as a pause.</span>
+        <span className="font-normal">The interviewee paused {numPauses > 50 ? 'over 50' : numPauses} times. Any 1+ second gap between speaking counts as a pause.</span>
       </div>
     </div>
   );
@@ -60,17 +60,17 @@ export const ArticulationBar = ({ articulationRate } : ArticulationBarProps) => 
       </p>
       {/* <div className="flex gap-2 align-middle"> */}
       <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={[{ name: '', value: articulationRate }]}>
+        <BarChart data={[{ name: '', value: Math.min(articulationRate, 10) }]}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis domain={[0, 50]} />
+          <YAxis domain={[0, 10]} />
 
           <Bar dataKey="value" fill={barColor} />
         </BarChart>
       </ResponsiveContainer>
       {/* </div> */}
       <div className="font-medium ">
-        <span className="font-normal">The interviewee had an articulation rate of {articulationRate}. Articulation rate expresses talking speed during the interviewee's answers.</span>
+        <span className="font-normal">The interviewee had an articulation rate of {articulationRate > 10 ? "over 10" : articulationRate}. Articulation rate expresses talking speed during the interviewee's answers.</span>
       </div>
     </div>
   );
