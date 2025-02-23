@@ -63,7 +63,7 @@ export const ArticulationBar = ({ articulationRate } : ArticulationBarProps) => 
         <BarChart data={[{ name: '', value: articulationRate }]}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis domain={[0, 50]} />
+          <YAxis domain={[0, 8]} />
 
           <Bar dataKey="value" fill={barColor} />
         </BarChart>

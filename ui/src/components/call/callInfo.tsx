@@ -379,12 +379,12 @@ function CallInfo({
                       formatOptions={{ signDisplay: "never" }}
                     />
                     <p className="font-medium my-auto text-xl">
-                      Pronunciation Percentage
+                      Clarity Percentage
                     </p>
                   </div>
                   <div className="">
                     <div className="font-medium ">
-                      <span className="font-normal">The interviewee pronounced {analytics.pronunciationPercent}% of their words correctly.</span>
+                      <span className="font-normal">Percentage of how clear, audible, and easily distinguishable the interviewee's speech was. Higher values are better.</span>
                     </div>
                   </div>
                 </div>
