@@ -309,10 +309,10 @@ if __name__ == "__main__":
     try:
         with open(flowdir+"/dataset/wav_files/"+filename+"_segmented.wav", 'r') as file:
             # print(f"Found file '{filename}'")
-            print("Number of Pauses:", flow.getPauses(filename+"_segmented", flowdir))
-            print("Rate of Speech:", flow.getRateOfSpeech(filename+"_segmented", flowdir))
-            print("Rate of Articulation:", flow.getRateOfArticulation(filename+"_segmented", flowdir))
-            print("Pronunciation Correctness Percentage:", round(flow.getPronunciationPercentageCorrect(filename+"_segmented", flowdir)))
+            print(flow.getPauses(filename+"_segmented", flowdir))
+            print(flow.getRateOfSpeech(filename+"_segmented", flowdir))
+            print(flow.getRateOfArticulation(filename+"_segmented", flowdir))
+            print(round(flow.getPronunciationPercentageCorrect(filename+"_segmented", flowdir)))
 
     except FileNotFoundError:
         print(f"Error: Could not find file '{filename}'")
