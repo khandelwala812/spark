@@ -58,7 +58,6 @@ function CallInfo({
   const [transcript, setTranscript] = useState("");
   const [candidateStatus, setCandidateStatus] = useState<string>("");
   const [interviewId, setInterviewId] = useState<string>("");
-  const [tabSwitchCount, setTabSwitchCount] = useState<number>();
 
   useEffect(() => {
     const fetchResponses = async () => {
@@ -91,7 +90,6 @@ function CallInfo({
         setName(response.name);
         setCandidateStatus(response.candidate_status);
         setInterviewId(response.interview_id);
-        setTabSwitchCount(response.tab_switch_count);
       } catch (error) {
         console.error(error);
       } finally {
@@ -178,73 +176,13 @@ function CallInfo({
                     <ArrowLeft className="mr-2" />
                     <p className="text-sm font-semibold">Back to Summary</p>
                   </div>
-                  {tabSwitchCount && tabSwitchCount > 0 && (
-                    <p className="text-sm font-semibold text-red-500 bg-red-200 rounded-sm px-2 py-1">
-                      Tab Switching Detected
-                    </p>
-                  )}
-                </div>
-              </div>
-              <div className="flex flex-col justify-between gap-3 w-full">
-                <div className="flex flex-row justify-between">
-                  <div className="flex flex-row gap-3">
-                    <Avatar>
-                      <AvatarFallback>{name ? name[0] : "A"}</AvatarFallback>
-                    </Avatar>
-                    <div className="flex flex-col">
-                      {name && (
-                        <p className="text-sm font-semibold px-2">{name}</p>
-                      )}
-                      {email && <p className="text-sm px-2">{email}</p>}
-                    </div>
-                  </div>
+
                   <div className="flex flex-row mr-2 items-center gap-3">
-                    <Select
-                      value={candidateStatus}
-                      onValueChange={async (newValue: string) => {
-                        setCandidateStatus(newValue);
-                        await ResponseService.updateResponse(
-                          { candidate_status: newValue },
-                          call_id,
-                        );
-                        onCandidateStatusChange(call_id, newValue);
-                      }}
-                    >
-                      <SelectTrigger className="w-[180px]  bg-slate-50 rounded-2xl">
-                        <SelectValue placeholder="Not Selected" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value={CandidateStatus.NO_STATUS}>
-                          <div className="flex items-center">
-                            <div className="w-3 h-3 bg-gray-400 rounded-full mr-2" />
-                            No Status
-                          </div>
-                        </SelectItem>
-                        <SelectItem value={CandidateStatus.NOT_SELECTED}>
-                          <div className="flex items-center">
-                            <div className="w-3 h-3 bg-red-500 rounded-full mr-2" />
-                            Not Selected
-                          </div>
-                        </SelectItem>
-                        <SelectItem value={CandidateStatus.POTENTIAL}>
-                          <div className="flex items-center">
-                            <div className="w-3 h-3 bg-yellow-500 rounded-full mr-2" />
-                            Potential
-                          </div>
-                        </SelectItem>
-                        <SelectItem value={CandidateStatus.SELECTED}>
-                          <div className="flex items-center">
-                            <div className="w-3 h-3 bg-green-500 rounded-full mr-2" />
-                            Selected
-                          </div>
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
                     <AlertDialog>
                       <AlertDialogTrigger>
                         <Button
-                          disabled={isClicked}
-                          className="bg-red-500 hover:bg-red-600 p-2"
+                            disabled={isClicked}
+                            className="bg-red-500 hover:bg-red-600 p-2"
                         >
                           <TrashIcon size={16} className="" />
                         </Button>
@@ -264,10 +202,10 @@ function CallInfo({
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
 
                           <AlertDialogAction
-                            className="bg-indigo-600 hover:bg-indigo-800"
-                            onClick={async () => {
-                              await onDeleteResponseClick();
-                            }}
+                              className="bg-indigo-600 hover:bg-indigo-800"
+                              onClick={async () => {
+                                await onDeleteResponseClick();
+                              }}
                           >
                             Continue
                           </AlertDialogAction>
@@ -276,7 +214,19 @@ function CallInfo({
                     </AlertDialog>
                   </div>
                 </div>
-                <div className="flex flex-col mt-3">
+              </div>
+              <div className="flex flex-col justify-between gap-3 w-full">
+                <div className="flex flex-row justify-between">
+                  <div className="flex flex-row gap-3">
+                    <div className="flex flex-col">
+                      {name && (
+                        <p className="text-sm font-semibold px-2">{name}</p>
+                      )}
+                      {email && <p className="text-sm px-2">{email}</p>}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col">
                   <p className="font-semibold">Interview Recording</p>
                   <div className="flex flex-row gap-3 mt-2">
                     {call?.recording_url && (
@@ -316,7 +266,7 @@ function CallInfo({
                       formatOptions={{ signDisplay: "never" }}
                     />
                     <p className="font-medium my-auto text-xl">
-                      Overall Hiring Score
+                      Overview Score
                     </p>
                   </div>
                   <div className="">

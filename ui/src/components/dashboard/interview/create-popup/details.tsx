@@ -54,6 +54,7 @@ function DetailsPopup({
   const [duration, setDuration] = useState(interviewData.time_duration);
   const [uploadedDocumentContext, setUploadedDocumentContext] = useState("");
 
+  // @ts-ignore
   const onSave = async (updatedInterviewData) => {
     try {
       updatedInterviewData.user_id = '1';
