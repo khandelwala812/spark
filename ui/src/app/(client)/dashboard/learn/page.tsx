@@ -11,6 +11,13 @@ const lessons = [
       image: "/learn/tell-me-about-yourself.png",
       videoSrc: "/learn/tell-me-about-yourself.mp4"
     },
+    {
+      id: 2,
+      title: "Any Questions?",
+      description: 'Learn how to structure and ask follow up questions near the end of the interview',
+      image: "/learn/follow-up-questions.png",
+      videoSrc: "/learn/follow-up-questions.mp4"
+    },
   ]
 
 function Learn() {

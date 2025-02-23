@@ -104,9 +104,9 @@ function CallInfo({
   }, [call_id]);
 
   useEffect(() => {
-    const replaceAgentAndUser = (transcript: string, name: string): string => {
-      const agentReplacement = "**AI interviewer:**";
-      const userReplacement = `**${name}:**`;
+    const replaceAgentAndUser = (transcript: string): string => {
+      const agentReplacement = "**Interviewer:**";
+      const userReplacement = `**You:**`;
 
       // Replace "Agent:" with "AI interviewer:" and "User:" with the variable `${name}:`
       let updatedTranscript = transcript
@@ -119,8 +119,8 @@ function CallInfo({
       return updatedTranscript;
     };
 
-    if (call && name) {
-      setTranscript(replaceAgentAndUser(call?.transcript as string, name));
+    if (call) {
+      setTranscript(replaceAgentAndUser(call?.transcript as string));
     }
   }, [call, name]);
 
@@ -153,6 +153,8 @@ function CallInfo({
       });
     }
   };
+
+  console.log(call)
 
   return (
     <div className="h-screen z-[10] mx-2 mb-[100px] overflow-y-scroll">
