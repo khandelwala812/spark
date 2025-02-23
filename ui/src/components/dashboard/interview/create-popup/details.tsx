@@ -57,21 +57,27 @@ function DetailsPopup({
   const onSave = async (updatedInterviewData) => {
     try {
       updatedInterviewData.user_id = '1';
+      const interviewId = Math.random() > 0.5 ? 1 : 2;
 
       // Convert BigInts to strings if necessary
       const sanitizedInterviewData = {
         ...updatedInterviewData,
-        interviewer_id: interviewData.interviewer_id.toString(),
+        interviewer_id: BigInt(interviewId).toString(),
+        response_count: undefined,
+        organization_id: undefined,
+        is_active: true,
+        is_anonymous: undefined,
+        insights: []
       };
 
       console.log("SANITIZED INTERVIEW DATA", sanitizedInterviewData)
 
-      await axios.post("/api/create-interview", {
+      const response = await axios.post("/api/create-interview", {
         interviewData: sanitizedInterviewData,
       });
       setIsClicked(false);
       // setOpen(false);
-      router.push(`/call/${interviewData.user_id}`)
+      // router.push(`/call/${response.user_id}`)
     } catch (error) {
       console.error("Error creating interview:", error);
     }

@@ -106,22 +106,6 @@ function InterviewHome({ params, searchParams }: Props) {
   }, [getInterviewById, params.interviewId, isGeneratingInsights]);
 
   useEffect(() => {
-    const fetchOrganizationData = async () => {
-      try {
-        if (organization?.id) {
-          const data = await ClientService.getOrganizationById(organization.id);
-          if (data?.plan) {
-            setCurrentPlan(data.plan);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching organization data:", error);
-      }
-    };
-
-    fetchOrganizationData();
-  }, [organization]);
-  useEffect(() => {
     const fetchResponses = async () => {
       try {
         const response = await ResponseService.getAllResponses(
@@ -372,36 +356,6 @@ function InterviewHome({ params, searchParams }: Props) {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-
-            <label className="inline-flex cursor-pointer">
-              {currentPlan == "free_trial_over" ? (
-                <>
-                  <span className="ms-3 my-auto text-sm">Inactive</span>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipContent
-                        className="bg-zinc-300"
-                        side="bottom"
-                        sideOffset={4}
-                      >
-                        Upgrade your plan to reactivate
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </>
-              ) : (
-                <>
-                  <span className="ms-3 my-auto text-sm">Active</span>
-                  <Switch
-                    checked={isActive}
-                    className={`ms-3 my-auto ${
-                      isActive ? "bg-indigo-600" : "bg-[#E6E7EB]"
-                    }`}
-                    onCheckedChange={handleToggle}
-                  />
-                </>
-              )}
-            </label>
           </div>
           <div className="flex flex-row w-full p-2 h-[85%] gap-1 ">
             <div className="w-[20%] flex flex-col p-2 divide-y-2 rounded-sm border-2 border-slate-100">
@@ -411,10 +365,10 @@ function InterviewHome({ params, searchParams }: Props) {
                     setFilterStatus(newValue);
                   }}
                 >
-                  <SelectTrigger className="w-[95%] bg-slate-100 rounded-lg">
+                  {/* <SelectTrigger className="w-[95%] bg-slate-100 rounded-lg">
                     <Filter size={18} className=" text-slate-400" />
                     <SelectValue placeholder="Filter By" />
-                  </SelectTrigger>
+                  </SelectTrigger> */}
                   <SelectContent>
                     <SelectItem value={CandidateStatus.NO_STATUS}>
                       <div className="flex items-center">
@@ -452,7 +406,7 @@ function InterviewHome({ params, searchParams }: Props) {
 
               <ScrollArea className="h-full p-1 rounded-md border-none">
                 {filterResponses().length > 0 ? (
-                  filterResponses().map((response) => (
+                  filterResponses().map((response, i) => (
                     <div
                       className={`p-2 rounded-md hover:bg-indigo-100 border-2 my-1 text-left text-xs ${
                         searchParams.call == response.call_id
@@ -480,9 +434,7 @@ function InterviewHome({ params, searchParams }: Props) {
                         <div className="flex items-center justify-between w-full">
                           <div className="flex flex-col my-auto">
                             <p className="font-medium mb-[2px]">
-                              {response?.name
-                                ? `${response?.name}'s Response`
-                                : "Anonymous"}
+                              Response {i + 1}
                             </p>
                             <p className="">
                               {formatTimestampToDateHHMM(
@@ -535,7 +487,7 @@ function InterviewHome({ params, searchParams }: Props) {
                   ))
                 ) : (
                   <p className="text-center text-gray-500">
-                    No responses to display
+                    No attempts to display
                   </p>
                 )}
               </ScrollArea>

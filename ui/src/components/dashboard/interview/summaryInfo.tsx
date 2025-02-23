@@ -178,10 +178,10 @@ function SummaryInfo({ responses, interview }: SummaryProps) {
             <div className="flex flex-row gap-2 items-center">
               <p className="font-semibold my-2">Overall Analysis</p>
             </div>
-            <p className="text-sm">
+            {/* <p className="text-sm">
               Interviewer used:{" "}
               <span className="font-medium">{interviewer?.name}</span>
-            </p>
+            </p> */}
           </div>
           <p className="my-3 ml-2 text-sm">
             Interview Description:{" "}
@@ -343,7 +343,7 @@ function SummaryInfo({ responses, interview }: SummaryProps) {
               height={270}
             />
             <p className="text-center text-sm mt-0">
-              Please share with your intended respondents
+              Please attempt this interview before analyzing
             </p>
           </div>
         </div>
