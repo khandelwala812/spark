@@ -72,9 +72,9 @@ function SummaryInfo({ responses, interview }: SummaryProps) {
   const [tableData, setTableData] = useState<TableData[]>([]);
 
   const prepareTableData = (responses: Response[]): TableData[] => {
-    return responses.map((response) => ({
+    return responses.map((response, i) => ({
       call_id: response.call_id,
-      name: response.name || "Anonymous",
+      name: `Response ${i + 1}`,
       overallScore: response.analytics?.overallScore || 0,
       communicationScore: response.analytics?.communication?.score || 0,
       callSummary:
@@ -264,7 +264,7 @@ function SummaryInfo({ responses, interview }: SummaryProps) {
                 height={120}
               />
             </div>
-            <div className="flex flex-col gap-1 my-2 mt-4 mx-2 p-4 rounded-2xl bg-slate-50 shadow-md">
+            {/* <div className="flex flex-col gap-1 my-2 mt-4 mx-2 p-4 rounded-2xl bg-slate-50 shadow-md">
               <div className="flex flex-row gap-2 text-[15px] font-bold mx-auto mb-1">
                 <UserCircleIcon />
                 Candidate Status
@@ -330,7 +330,7 @@ function SummaryInfo({ responses, interview }: SummaryProps) {
                   },
                 }}
               />
-            </div>
+            </div> */}
           </div>
         </div>
       ) : (

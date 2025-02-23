@@ -482,7 +482,7 @@ function Call({ interview }: InterviewProps) {
             )} */}
           </div>
         </Card>
-        <a
+        {/* <a
           className="flex flex-row justify-center align-middle mt-3"
           href="https://folo-up.co/"
           target="_blank"
@@ -494,7 +494,7 @@ function Call({ interview }: InterviewProps) {
             </span>
           </div>
           <ArrowUpRightSquareIcon className="h-[1.5rem] w-[1.5rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-indigo-500 " />
-        </a>
+        </a> */}
       </div>
     </div>
   );
