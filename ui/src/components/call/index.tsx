@@ -21,10 +21,6 @@ import { ResponseService } from "@/services/responses.service";
 import { Interview } from "@/types/interview";
 import { FeedbackData } from "@/types/response";
 import {
-  TabSwitchWarning,
-  useTabSwitchPrevention,
-} from "./tabSwitchPrevention";
-import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -72,7 +68,6 @@ function Call({ interview }: InterviewProps) {
   const [name, setName] = useState<string>("");
   const [isOldUser, setIsOldUser] = useState<boolean>(false);
   const [callId, setCallId] = useState<string>("");
-  const { tabSwitchCount } = useTabSwitchPrevention();
   const [isFeedbackSubmitted, setIsFeedbackSubmitted] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [interviewerImg, setInterviewerImg] = useState("");
@@ -230,7 +225,7 @@ function Call({ interview }: InterviewProps) {
       // TODO: update interview.is_active to false
       const updateInterview = async () => {
         await ResponseService.saveResponse(
-          { is_ended: true, tab_switch_count: tabSwitchCount },
+          { is_ended: true },
           callId,
         );
       };
@@ -242,7 +237,7 @@ function Call({ interview }: InterviewProps) {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      {isStarted && <TabSwitchWarning isEnded={isEnded} />}
+      {isStarted}
       <div className="bg-white rounded-md md:w-[80%] w-[90%]">
         <Card className="h-[88vh] rounded-lg border-2 border-b-4 border-r-4 border-black text-xl font-bold transition-all  md:block dark:border-white ">
           <div>
