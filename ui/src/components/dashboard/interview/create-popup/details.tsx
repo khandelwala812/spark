@@ -242,10 +242,7 @@ function DetailsPopup({
           <Textarea
             value={objective}
             className="h-24 mt-2 border-2 border-gray-500 w-[33.2rem]"
-            placeholder="e.g. Minimum qualifications
-Pursuing a PhD program with a focus on subjects in software development or other technical related fields.
-Experience in Software Development and coding in one or more of the following: Python or C++.
-Experience with data structures or algorithms gathered from inside or outside of school or work."
+            placeholder="Description of the job, company, or topic that you want the interviewer to more specialize his or her questions into :)"
             onChange={(e) => setObjective(e.target.value)}
             onBlur={(e) => setObjective(e.target.value.trim())}
           />
