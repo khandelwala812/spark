@@ -23,14 +23,12 @@ def getSyllabus(wavFile, pathToDir):
     wav, praat, path = getFiles(wavFile, pathToDir)
     try:
         objects = run_file(praat, -20, 2, 0.3, "yes", wav, path, 80, 400, 0.01, capture_output=True)
-        print(
-            objects[0])  # This will print the info from the sound object, and objects[0] is a parselmouth.Sound object
         z1 = str(objects[
                      1])  # This will print the info from the textgrid object, and objects[1] is a parselmouth.Data object with a TextGrid inside
         z2 = z1.strip().split()
         z3 = int(z2[0])  # will be the integer number 10
         z4 = float(z2[3])  # will be the floating point number 8.3
-        return z4, z3
+        return z3
     except:
         z3 = 0
         print("Try again the sound of the audio was not clear")
@@ -44,14 +42,12 @@ def getPauses(wavFile, pathToDir):
     wav, praat, path = getFiles(wavFile, pathToDir)
     try:
         objects = run_file(praat, -20, 2, 0.3, "yes", wav, path, 80, 400, 0.01, capture_output=True)
-        print(
-            objects[0])  # This will print the info from the sound object, and objects[0] is a parselmouth.Sound object
         z1 = str(objects[
                      1])  # This will print the info from the textgrid object, and objects[1] is a parselmouth.Data object with a TextGrid inside
         z2 = z1.strip().split()
         z3 = int(z2[1])  # will be the integer number 10
         z4 = float(z2[3])  # will be the floating point number 8.3
-        return z4, z3
+        return z3
     except:
         z3 = 0
         print("Try again the sound of the audio was not clear")
@@ -65,14 +61,12 @@ def getRateOfSpeech(wavFile, pathToDir):
     wav, praat, path = getFiles(wavFile, pathToDir)
     try:
         objects = run_file(praat, -20, 2, 0.3, "yes", wav, path, 80, 400, 0.01, capture_output=True)
-        print(
-            objects[0])  # This will print the info from the sound object, and objects[0] is a parselmouth.Sound object
         z1 = str(objects[
                      1])  # This will print the info from the textgrid object, and objects[1] is a parselmouth.Data object with a TextGrid inside
         z2 = z1.strip().split()
         z3 = int(z2[2])  # will be the integer number 10
         z4 = float(z2[3])  # will be the floating point number 8.3
-        return z4, z3
+        return z3
     except:
         z3 = 0
         print("Try again the sound of the audio was not clear")
@@ -86,14 +80,12 @@ def getRateOfArticulation(wavFile, pathToDir):
     wav, praat, path = getFiles(wavFile, pathToDir)
     try:
         objects = run_file(praat, -20, 2, 0.3, "yes", wav, path, 80, 400, 0.01, capture_output=True)
-        print(
-            objects[0])  # This will print the info from the sound object, and objects[0] is a parselmouth.Sound object
         z1 = str(objects[
                      1])  # This will print the info from the textgrid object, and objects[1] is a parselmouth.Data object with a TextGrid inside
         z2 = z1.strip().split()
         z3 = int(z2[3])  # will be the integer number 10
         z4 = float(z2[3])  # will be the floating point number 8.3
-        return z4, z3
+        return z3
     except:
         z3 = 0
         print("Try again the sound of the audio was not clear")
@@ -107,14 +99,12 @@ def getDurationSpeaking(wavFile, pathToDir):
     wav, praat, path = getFiles(wavFile, pathToDir)
     try:
         objects = run_file(praat, -20, 2, 0.3, "yes", wav, path, 80, 400, 0.01, capture_output=True)
-        print(
-            objects[0])  # This will print the info from the sound object, and objects[0] is a parselmouth.Sound object
         z1 = str(objects[
                      1])  # This will print the info from the textgrid object, and objects[1] is a parselmouth.Data object with a TextGrid inside
         z2 = z1.strip().split()
         z3 = int(z2[3])  # will be the integer number 10
         z4 = float(z2[4])  # will be the floating point number 8.3
-        return z4, z3
+        return z3
     except:
         z4 = 0
         print("Try again the sound of the audio was not clear")
@@ -128,14 +118,12 @@ def getDurationTotal(wavFile, pathToDir):
     wav, praat, path = getFiles(wavFile, pathToDir)
     try:
         objects = run_file(praat, -20, 2, 0.3, "yes", wav, path, 80, 400, 0.01, capture_output=True)
-        print(
-            objects[0])  # This will print the info from the sound object, and objects[0] is a parselmouth.Sound object
         z1 = str(objects[
                      1])  # This will print the info from the textgrid object, and objects[1] is a parselmouth.Data object with a TextGrid inside
         z2 = z1.strip().split()
         z3 = int(z2[3])  # will be the integer number 10
         z4 = float(z2[5])  # will be the floating point number 8.3
-        return z4, z3
+        return z3
     except:
         z4 = 0
         print("Try again the sound of the audio was not clear")
@@ -149,14 +137,12 @@ def getDurationRatio(wavFile, pathToDir):
     wav, praat, path = getFiles(wavFile, pathToDir)
     try:
         objects = run_file(praat, -20, 2, 0.3, "yes", wav, path, 80, 400, 0.01, capture_output=True)
-        print(
-            objects[0])  # This will print the info from the sound object, and objects[0] is a parselmouth.Sound object
         z1 = str(objects[
                      1])  # This will print the info from the textgrid object, and objects[1] is a parselmouth.Data object with a TextGrid inside
         z2 = z1.strip().split()
         z3 = int(z2[3])  # will be the integer number 10
         z4 = float(z2[6])  # will be the floating point number 8.3
-        return z4, z3
+        return z3
     except:
         z4 = 0
         print("Try again the sound of the audio was not clear")
@@ -170,14 +156,12 @@ def getHertzMean(wavFile, pathToDir):
     wav, praat, path = getFiles(wavFile, pathToDir)
     try:
         objects = run_file(praat, -20, 2, 0.3, "yes", wav, path, 80, 400, 0.01, capture_output=True)
-        print(
-            objects[0])  # This will print the info from the sound object, and objects[0] is a parselmouth.Sound object
         z1 = str(objects[
                      1])  # This will print the info from the textgrid object, and objects[1] is a parselmouth.Data object with a TextGrid inside
         z2 = z1.strip().split()
         z3 = int(z2[3])  # will be the integer number 10
         z4 = float(z2[7])  # will be the floating point number 8.3
-        return z4, z3
+        return z3
     except:
         z4 = 0
         print("Try again the sound of the audio was not clear")
@@ -191,14 +175,12 @@ def getHertzStdev(wavFile, pathToDir):
     wav, praat, path = getFiles(wavFile, pathToDir)
     try:
         objects = run_file(praat, -20, 2, 0.3, "yes", wav, path, 80, 400, 0.01, capture_output=True)
-        print(
-            objects[0])  # This will print the info from the sound object, and objects[0] is a parselmouth.Sound object
         z1 = str(objects[
                      1])  # This will print the info from the textgrid object, and objects[1] is a parselmouth.Data object with a TextGrid inside
         z2 = z1.strip().split()
         z3 = int(z2[3])  # will be the integer number 10
         z4 = float(z2[8])  # will be the floating point number 8.3
-        return z4, z3
+        return z3
     except:
         z4 = 0
         print("Try again the sound of the audio was not clear")
@@ -212,14 +194,12 @@ def getHertzMedian(wavFile, pathToDir):
     wav, praat, path = getFiles(wavFile, pathToDir)
     try:
         objects = run_file(praat, -20, 2, 0.3, "yes", wav, path, 80, 400, 0.01, capture_output=True)
-        print(
-            objects[0])  # This will print the info from the sound object, and objects[0] is a parselmouth.Sound object
         z1 = str(objects[
                      1])  # This will print the info from the textgrid object, and objects[1] is a parselmouth.Data object with a TextGrid inside
         z2 = z1.strip().split()
         z3 = int(z2[3])  # will be the integer number 10
         z4 = float(z2[9])  # will be the floating point number 8.3
-        return z4, z3
+        return z3
     except:
         z4 = 0
         print("Try again the sound of the audio was not clear")
@@ -233,14 +213,12 @@ def getHertzMin(wavFile, pathToDir):
     wav, praat, path = getFiles(wavFile, pathToDir)
     try:
         objects = run_file(praat, -20, 2, 0.3, "yes", wav, path, 80, 400, 0.01, capture_output=True)
-        print(
-            objects[0])  # This will print the info from the sound object, and objects[0] is a parselmouth.Sound object
         z1 = str(objects[
                      1])  # This will print the info from the textgrid object, and objects[1] is a parselmouth.Data object with a TextGrid inside
         z2 = z1.strip().split()
         z3 = int(z2[10])  # will be the integer number 10
         z4 = float(z2[10])  # will be the floating point number 8.3
-        return z4, z3
+        return z3
     except:
         z3 = 0
         print("Try again the sound of the audio was not clear")
@@ -254,14 +232,12 @@ def getHertzMax(wavFile, pathToDir):
     wav, praat, path = getFiles(wavFile, pathToDir)
     try:
         objects = run_file(praat, -20, 2, 0.3, "yes", wav, path, 80, 400, 0.01, capture_output=True)
-        print(
-            objects[0])  # This will print the info from the sound object, and objects[0] is a parselmouth.Sound object
         z1 = str(objects[
                      1])  # This will print the info from the textgrid object, and objects[1] is a parselmouth.Data object with a TextGrid inside
         z2 = z1.strip().split()
         z3 = int(z2[11])  # will be the integer number 10
         z4 = float(z2[11])  # will be the floating point number 8.3
-        return z4, z3
+        return z3
     except:
         z3 = 0
         print("Try again the sound of the audio was not clear")
@@ -275,14 +251,12 @@ def getHertz25Percentile(wavFile, pathToDir):
     wav, praat, path = getFiles(wavFile, pathToDir)
     try:
         objects = run_file(praat, -20, 2, 0.3, "yes", wav, path, 80, 400, 0.01, capture_output=True)
-        print(
-            objects[0])  # This will print the info from the sound object, and objects[0] is a parselmouth.Sound object
         z1 = str(objects[
                      1])  # This will print the info from the textgrid object, and objects[1] is a parselmouth.Data object with a TextGrid inside
         z2 = z1.strip().split()
         z3 = int(z2[12])  # will be the integer number 10
         z4 = float(z2[11])  # will be the floating point number 8.3
-        return z4, z3
+        return z3
     except:
         z3 = 0
         print("Try again the sound of the audio was not clear")
@@ -296,14 +270,12 @@ def getHertz75Percentile(wavFile, pathToDir):
     wav, praat, path = getFiles(wavFile, pathToDir)
     try:
         objects = run_file(praat, -20, 2, 0.3, "yes", wav, path, 80, 400, 0.01, capture_output=True)
-        print(
-            objects[0])  # This will print the info from the sound object, and objects[0] is a parselmouth.Sound object
         z1 = str(objects[
                      1])  # This will print the info from the textgrid object, and objects[1] is a parselmouth.Data object with a TextGrid inside
         z2 = z1.strip().split()
         z3 = int(z2[13])  # will be the integer number 10
         z4 = float(z2[11])  # will be the floating point number 8.3
-        return z4, z3
+        return z3
     except:
         z3 = 0
         print("Try again the sound of the audio was not clear")
@@ -317,8 +289,6 @@ def getAllOutput(wavFile, pathToDir):
     wav, praat, path = getFiles(wavFile, pathToDir)
     try:
         objects = run_file(praat, -20, 2, 0.3, "yes", wav, path, 80, 400, 0.01, capture_output=True)
-        print(
-            objects[0])  # This will print the info from the sound object, and objects[0] is a parselmouth.Sound object
         z1 = str(objects[
                      1])  # This will print the info from the textgrid object, and objects[1] is a parselmouth.Data object with a TextGrid inside
         z2 = z1.strip().split()
@@ -344,8 +314,6 @@ def getPronunciationPercentageCorrect(wavFile, pathToDir):
     wav, praat, path = getFiles(wavFile, pathToDir)
     try:
         objects = run_file(praat, -20, 2, 0.3, "yes", wav, path, 80, 400, 0.01, capture_output=True)
-        print(
-            objects[0])  # This will print the info from the sound object, and objects[0] is a parselmouth.Sound object
         z1 = str(objects[
                      1])  # This will print the info from the textgrid object, and objects[1] is a parselmouth.Data object with a TextGrid inside
         z2 = z1.strip().split()
@@ -371,8 +339,6 @@ def getGenderAndMood(wavFile, pathToDir):
     wav, praat, path = getFiles(wavFile, pathToDir)
     try:
         objects = run_file(praat, -20, 2, 0.3, "yes", wav, path, 80, 400, 0.01, capture_output=True)
-        print(
-            objects[0])  # This will print the info from the sound object, and objects[0] is a parselmouth.Sound object
         z1 = str(objects[
                      1])  # This will print the info from the textgrid object, and objects[1] is a parselmouth.Data object with a TextGrid inside
         z2 = z1.strip().split()

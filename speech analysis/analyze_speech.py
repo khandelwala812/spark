@@ -18,9 +18,6 @@ if __name__ == "__main__":
             print("Rate of Articulation:", flow.getRateOfArticulation(filename, flowdir))
             print("Pronunciation Correctness Percentage:", flow.getPronunciationPercentageCorrect(filename, flowdir))
 
-
-
-
     except FileNotFoundError:
         print(f"Error: Could not find file '{filename}'")
     except Exception as e:
