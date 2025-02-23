@@ -36,8 +36,8 @@ function CreateInterviewModal({ open, setOpen }: Props) {
 
   useEffect(() => {
     if (loading) {
+      setOpen(false);
       setLoading(false);
-      // update interview data and navigate to 
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [interviewData]);

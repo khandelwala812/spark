@@ -3,11 +3,24 @@ import Image from "next/image";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Trash } from "lucide-react";
+import { TrashIcon } from "lucide-react";
 import axios from "axios";
 import MiniLoader from "@/components/loaders/mini-loader/miniLoader";
 import { InterviewerService } from "@/services/interviewers.service";
-
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { InterviewService } from "@/services/interviews.service";
+import { useRouter } from "next/navigation";
+import { useInterviews } from "@/contexts/interviews.context";
 interface Props {
   name: string | null;
   id: string;
@@ -18,6 +31,8 @@ interface Props {
 const base_url = process.env.NEXT_PUBLIC_LIVE_URL;
 
 function InterviewCard({ name, id }: Props) {
+  const router = useRouter();
+  const { fetchInterviews } = useInterviews();
   const [copied, setCopied] = useState(false);
   const [responseCount, setResponseCount] = useState<number | null>(null);
   const [isFetching, setIsFetching] = useState(false);
@@ -45,15 +60,26 @@ function InterviewCard({ name, id }: Props) {
   //     );
   // };
 
+  const deleteInterview = async () => {
+    await InterviewService.deleteInterview(id);
+    await fetchInterviews()
+    
+    toast.success("Interview deleted successfully.", {
+      position: "bottom-right",
+
+      duration: 3000,
+    });
+  }
+
   return (
-    <a
-      href={`/interviews/${id}`}
-      style={{
-        pointerEvents: isFetching ? "none" : "auto",
-        cursor: isFetching ? "default" : "pointer",
-      }}
-    >
-      <Card className="relative p-0 mt-4 inline-block cursor-pointer h-60 w-56 ml-1 mr-3 rounded-xl shrink-0 overflow-hidden shadow-md">
+    // <a
+    //   href={`/interviews/${id}`}
+    //   style={{
+    //     pointerEvents: isFetching ? "none" : "auto",
+    //     cursor: isFetching ? "default" : "pointer",
+    //   }}
+    // >
+      <Card className="relative p-0 mt-4 inline-block h-60 w-56 ml-1 mr-3 rounded-xl shrink-0 overflow-hidden shadow-md">
         <CardContent className={`p-0 ${isFetching ? "opacity-60" : ""}`}>
           <div className="w-full h-40 overflow-hidden bg-indigo-600 flex items-center text-center">
             <CardTitle className="w-full mt-3 mx-2 text-white text-lg">
@@ -65,33 +91,55 @@ function InterviewCard({ name, id }: Props) {
               )}
             </CardTitle>
           </div>
-          <div className="flex flex-row items-center mx-4 ">
-            <div className="w-full overflow-hidden">
-              <Image
-                src={'/interviewers/Lisa.png'}
-                alt="Picture of the interviewer"
-                width={70}
-                height={70}
-                className="object-cover object-center"
-              />
-            </div>
+          <div className="flex flex-row w-full justify-center items-center space-x-8 mt-5">
+              <Button
+                className="bg-indigo-600 hover:bg-indigo-800 w-30"
+                onClick={() => router.push(`/call/${id}`)}
+              >
+                Start
+              </Button>
+              <Button
+                className="bg-indigo-600 hover:bg-indigo-800 w-30"
+                onClick={() => router.push(`/interviews/${id}`)}
+              >
+                Analyze
+              </Button>
           </div>
           <div className="absolute top-2 right-2">
-            <Button
-              className="text-xs text-indigo-600 px-1 h-6"
-              variant={"secondary"}
-              onClick={(event) => {
-                event.stopPropagation();
-                event.preventDefault();
-              }}
-            >
-              {/* {copied ? <CopyCheck size={16} /> : <Copy size={16} />} */}
-              <Trash size={16} />
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <Button
+                    className="text-xs text-white px-1 h-6"
+                >
+                  <TrashIcon size={16} className="" />
+                </Button>
+              </AlertDialogTrigger>
+
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently
+                    delete this interview.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+                  <AlertDialogAction
+                    className="bg-indigo-600 hover:bg-indigo-800"
+                    onClick={deleteInterview}
+                  >
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </CardContent>
       </Card>
-    </a>
+    // </a>
   );
 }
 

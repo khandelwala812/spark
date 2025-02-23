@@ -16,6 +16,7 @@ import FileUpload from "../fileUpload";
 import Modal from "@/components/dashboard/Modal";
 import InterviewerDetailsModal from "@/components/dashboard/interviewer/interviewerDetailsModal";
 import { Interviewer } from "@/types/interviewer";
+import { useInterviews } from "@/contexts/interviews.context";
 
 interface Props {
   open: boolean;
@@ -38,7 +39,7 @@ function DetailsPopup({
   fileName,
   setFileName,
 }: Props) {
-  const router = useRouter();
+  const { fetchInterviews } = useInterviews();
   const [isClicked, setIsClicked] = useState(false);
 
   const [name, setName] = useState(interviewData.name);
@@ -77,6 +78,7 @@ function DetailsPopup({
         interviewData: sanitizedInterviewData,
       });
       setIsClicked(false);
+      fetchInterviews();
       // setOpen(false);
       // router.push(`/call/${response.user_id}`)
     } catch (error) {
@@ -335,7 +337,7 @@ function DetailsPopup({
                 onGenerateQuestions();
               }}
             >
-              Start Interview
+              Create
             </Button>
             {/* <Button
               disabled={
