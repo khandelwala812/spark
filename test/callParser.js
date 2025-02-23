@@ -1,4 +1,4 @@
-function printUserWords(call) {
+function getFillerWordsWithTimestamp(call) {
     const transcriptObject = call.transcript_object;
     const stored = new Map();
     const expletive = /\b(u+m+|u+h+|e+r+|a+h+|like|so|well|actually|basically|just)\b/gi;
@@ -23,8 +23,28 @@ function printUserWords(call) {
         }
     }
 
-    console.log(stored)
+    console.log(stored);
+    return stored;
 }
+
+function getStartAndEndSegments(call) {
+    const transcriptObject = call.transcript_object;
+    const segments = []
+
+    for (const item of transcriptObject) {
+        if (item.role === 'user') {
+            if (item.words) {
+                const seg = [Math.floor(item.words[0].start), Math.ceil(item.words[item.words.length - 1].end)];
+                segments.push(seg);
+            }
+        }
+    }
+
+    console.log(segments)
+    return segments;
+}
+
+module.exports = { getFillerWordsWithTimestamp, getStartAndEndSegments };
 
 // Example call object (you would replace this with your actual call object)
 const callObject = {
@@ -618,4 +638,5 @@ const callObject = {
     ]
 };
 
-printUserWords(callObject);
+getFillerWordsWithTimestamp(callObject);
+getStartAndEndSegments(callObject);

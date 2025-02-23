@@ -322,7 +322,7 @@ def getPronunciationPercentageCorrect(wavFile, pathToDir):
         db = binom.rvs(n=10, p=z4, size=10000)
         a = np.array(db)
         b = np.mean(a) * 100 / 10
-        print("PreNorm", b)
+        # print("PreNorm", b)
         min = 100 * ((1/100.0) ** 3)
         max = 100 * ((100/100.0) ** 3)
         trans = 100 * ((b/100.0) ** 3)
