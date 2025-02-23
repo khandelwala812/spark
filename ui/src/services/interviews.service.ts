@@ -1,4 +1,5 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { ResponseService } from "./responses.service";
 
 const supabase = createClientComponentClient();
 
@@ -64,10 +65,19 @@ const updateInterview = async (payload: any, id: string) => {
 };
 
 const deleteInterview = async (id: string) => {
+  // const { data: interviewResponses } = await supabase
+  //   .from("response")
+  //   .select(`*`)
+  //   .or(`interview_id.eq.${id}`);
+
+  // for (const response of (interviewResponses || []))
+  //   await ResponseService.deleteResponse(response.id);
+
   const { error, data } = await supabase
     .from("interview")
     .delete()
     .eq("id", id);
+
   if (error) {
     console.log(error);
 

@@ -36,5 +36,10 @@ ui/.vercel
 ui/*.tsbuildinfo
 ui/next-env.d.ts
 
+# package manager files
 ui/package-lock.json
 ui/yarn.lock
+
+# data
+ui/scripts/speech analysis/flow_analysis/dataset/
+ui/scripts/js helper/recording*

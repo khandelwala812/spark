@@ -29,7 +29,8 @@ function getFillerWordsWithTimestamp(call) {
 
 function getStartAndEndSegments(call) {
     const transcriptObject = call.transcript_object;
-    const segments = []
+    const segments = [[1,15]]
+    return segments
 
     for (const item of transcriptObject) {
         if (item.role === 'user') {

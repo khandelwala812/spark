@@ -636,7 +636,7 @@ async function runPythonAnalysis(callObject) {
     const filename = await downloadWavFile(callObject.recording_url);
 
     return new Promise((resolve, reject) => {
-        const pythonProcess = spawn('C:/Users/Lyc/IdeaProjects/VoiceAnalysis/.venv/Scripts/python.exe', ['./speech analysis/analyze_speech.py', filename, JSON.stringify(getStartAndEndSegments(callObject))]);
+        const pythonProcess = spawn('C:/Users/avikw/anaconda3/python.exe', ['./speech analysis/analyze_speech.py', filename, JSON.stringify(getStartAndEndSegments(callObject))]);
         const stdoutData = [];
 
         // Capture stdout
@@ -655,11 +655,11 @@ async function runPythonAnalysis(callObject) {
                 // Process exited successfully
                 const combinedOutput = stdoutData.join(''); // Combine all chunks of stdout
                 const outputLines = combinedOutput.trim().split('\n'); // Split into lines
-                if (outputLines.length === 4) {
-                    resolve(outputLines);
-                } else {
-                    reject(new Error(`Python has catastrophically failed!`));
-                }
+                resolve(outputLines)
+                // // if (outputLines.length === 4) {
+                // } else {
+                //     reject(new Error(`Python has catastrophically failed!`));
+                // }
             } else {
                 // Process exited with an error code
                 reject(new Error(`Python process exited with code ${code}`));
