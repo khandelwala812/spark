@@ -240,7 +240,7 @@ function InterviewHome({ params, searchParams }: Props) {
   };
 
   return (
-    <div className="flex flex-col w-full h-full m-2 bg-white">
+    <div className="flex flex-col w-full h-full m-2">
       {loading ? (
         <div className="flex flex-col items-center justify-center h-[80%] w-full">
           <LoaderWithText />
@@ -404,7 +404,7 @@ function InterviewHome({ params, searchParams }: Props) {
                 </Select>
               </div>
 
-              <ScrollArea className="h-full p-1 rounded-md border-none">
+              <div className="h-full p-1 rounded-md border-none">
                 {filterResponses().length > 0 ? (
                   filterResponses().map((response, i) => (
                     <div
@@ -490,10 +490,10 @@ function InterviewHome({ params, searchParams }: Props) {
                     No attempts to display
                   </p>
                 )}
-              </ScrollArea>
+              </div>
             </div>
             {responses && (
-              <div className="w-[85%] rounded-md ">
+              <div className="w-[85%] rounded-md">
                 {searchParams.call ? (
                   <CallInfo
                     call_id={searchParams.call}
