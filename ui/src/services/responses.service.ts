@@ -38,7 +38,7 @@ const getAllResponses = async (interviewId: string) => {
       .eq("interview_id", interviewId)
       .or(`details.is.null, details->call_analysis.not.is.null`)
       .eq("is_ended", true)
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: true });
 
     return data || [];
   } catch (error) {

@@ -4,6 +4,7 @@ import { ResponseService } from "@/services/responses.service";
 import { Response } from "@/types/response";
 import { NextResponse } from "next/server";
 import Retell from "retell-sdk";
+import { runPythonAnalysis } from "./spawnPython";
 
 const retell = new Retell({
   apiKey: process.env.RETELL_API_KEY || "",
@@ -39,15 +40,27 @@ export async function POST(req: Request, res: Response) {
     transcript: callResponse.transcript,
   };
   const result = await generateInterviewAnalytics(payload);
+  let additionalAnalytics = [];
+  try {
+    additionalAnalytics = await runPythonAnalysis(callResponse);
+  } catch (err) {}
+  
+  const statNames = ["numPauses", "speechRate", "articulationRate", "pronunciationPercent"];
+  for (const index in additionalAnalytics) {
+    const statName = statNames[index];
+    const stat = parseInt(additionalAnalytics[index].trim());
+    result.analytics[statName] = stat;
+  }
 
+  console.log("ANALYTICS(+++)", result.analytics)
   const analytics = result.analytics;
 
   await ResponseService.saveResponse(
     {
       details: callResponse,
       is_analysed: true,
-      duration: duration,
-      analytics: analytics,
+      duration,
+      analytics,
     },
     body.id,
   );

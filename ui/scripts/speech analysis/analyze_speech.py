@@ -298,7 +298,7 @@ if __name__ == "__main__":
         print("Usage: python analyze_speech.py <audio.wav> <segments>")
         sys.exit(1)
 
-    flowdir = os.path.dirname(os.path.realpath(__file__)) + "/flow_analysis"
+    flowdir = "C:/Users/avikw/coding/projects/MockInt/ui/scripts/speech analysis/flow_analysis"
     filename = sys.argv[1]
     segments = str_to_tuple_array(sys.argv[2])
 

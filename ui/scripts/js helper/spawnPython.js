@@ -623,7 +623,7 @@ async function downloadWavFile(recordingUrl) {
         const buffer = Buffer.from(arrayBuffer);
         const name = "recording_" + generateRandomString(5)
 
-        fs.writeFileSync("./speech analysis/flow_analysis/dataset/wav_files/" + name + ".wav", buffer);
+        fs.writeFileSync(`C:/Users/avikw/Coding/projects/MockInt/ui/scripts/speech analysis/flow_analysis/dataset/wav_files/${name}.wav`, buffer);
         console.log(`Successfully downloaded and saved WAV file: ${name}`);
 
         return name;
@@ -633,6 +633,9 @@ async function downloadWavFile(recordingUrl) {
 }
 
 async function runPythonAnalysis(callObject) {
+    console.log("PYTHON ANALYSIS", callObject);
+    return;
+
     const filename = await downloadWavFile(callObject.recording_url);
 
     return new Promise((resolve, reject) => {
@@ -680,3 +683,5 @@ async function main() {
 }
 
 main();
+
+module.exports = { runPythonAnalysis };

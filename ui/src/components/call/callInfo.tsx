@@ -36,6 +36,8 @@ import {
 } from "@/components/ui/select";
 import { CandidateStatus } from "@/lib/enum";
 import { ArrowLeft } from "lucide-react";
+import { InfoTooltip } from '../dashboard/interview/summaryInfo'
+import { ArticulationBar, PauseBar } from './chart'
 
 type CallProps = {
   call_id: string;
@@ -357,6 +359,34 @@ function CallInfo({
                   {call?.call_analysis?.call_completion_rating_reason}
                 </p>
               </div>
+              {analytics?.numPauses && <PauseBar numPauses={analytics.numPauses} />}
+              {analytics?.articulationRate && <ArticulationBar articulationRate={analytics.articulationRate} />}
+              {analytics?.pronunciationPercent && (
+                <div className="flex flex-col gap-3 text-sm p-4 rounded-2xl bg-slate-50">
+                  <div className="flex flex-row gap-2 align-middle">
+                    <CircularProgress
+                      classNames={{
+                        svg: "w-28 h-28 drop-shadow-md",
+                        indicator: "stroke-indigo-600",
+                        track: "stroke-indigo-600/10",
+                        value: "text-3xl font-semibold text-indigo-600",
+                      }}
+                      value={analytics.pronunciationPercent}
+                      strokeWidth={4}
+                      showValueLabel={true}
+                      formatOptions={{ signDisplay: "never" }}
+                    />
+                    <p className="font-medium my-auto text-xl">
+                      Pronunciation Percentage
+                    </p>
+                  </div>
+                  <div className="">
+                    <div className="font-medium ">
+                      <span className="font-normal">The interviewee pronounced {analytics.pronunciationPercent}% of their words correctly.</span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           {analytics &&

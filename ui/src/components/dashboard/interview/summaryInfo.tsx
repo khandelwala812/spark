@@ -26,7 +26,7 @@ type SummaryProps = {
   interview: Interview | undefined;
 };
 
-function InfoTooltip({ content }: { content: string }) {
+export function InfoTooltip({ content }: { content: string }) {
   return (
     <TooltipProvider>
       <Tooltip>

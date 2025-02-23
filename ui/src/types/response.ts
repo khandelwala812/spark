@@ -25,6 +25,9 @@ export interface Analytics {
     question: string;
     summary: string;
   }>;
+  pronunciationPercent?: number;
+  numPauses?: number;
+  articulationRate?: number;
 }
 
 export interface FeedbackData {
