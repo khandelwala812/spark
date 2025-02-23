@@ -54,7 +54,7 @@ function InterviewCard({ name, id }: Props) {
         cursor: isFetching ? "default" : "pointer",
       }}
     >
-      <Card className="relative p-0 mt-4 inline-block cursor-pointer h-60 w-56 ml-1 mr-3 rounded-xl shrink-0 overflow-hidden shadow-md">
+      <Card className="relative p-0 mt-4 inline-block cursor-pointer h-60 w-56 ml-1 mr-3 rounded-xl cursor-pointer hover:scale-105 ease-in-out duration-300 h-60 w-56 ml-1 mr-3 mt-4 rounded-xl shrink-0 overflow-hidden shadow-md">
         <CardContent className={`p-0 ${isFetching ? "opacity-60" : ""}`}>
           <div className="w-full h-40 overflow-hidden bg-indigo-600 flex items-center text-center">
             <CardTitle className="w-full mt-3 mx-2 text-white text-lg">
