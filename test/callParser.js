@@ -1,7 +1,7 @@
 function printUserWords(call) {
     const transcriptObject = call.transcript_object;
     const stored = new Map();
-    const expletive = /\b(u+m+|u+h+|e+r+|a+h+|like|you know|so|well|actually|basically|just|kind of|sort of|okay|right|yeah)\b/gi;
+    const expletive = /\b(u+m+|u+h+|e+r+|a+h+|like|so|well|actually|basically|just)\b/gi;
 
     if (!transcriptObject || !Array.isArray(transcriptObject)) {
         console.log("Missing transcript_object");
@@ -198,7 +198,7 @@ const callObject = {
                 },
                 {
                     "end": 10.706,
-                    "word": "all ",
+                    "word": "um ",
                     "start": 10.385999
                 },
                 {
