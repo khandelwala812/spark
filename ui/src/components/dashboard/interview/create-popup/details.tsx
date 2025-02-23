@@ -172,7 +172,7 @@ function DetailsPopup({
             <input
               type="text"
               className="border-b-2 focus:outline-none border-gray-500 px-2 w-96 py-0.5 ml-3 mb-4"
-              placeholder="e.g. Google CEO Interview"
+              placeholder="e.g. Google Software Engineer Interview"
               value={name}
               onChange={(e) => setName(e.target.value)}
               onBlur={(e) => setName(e.target.value.trim())}
@@ -238,11 +238,14 @@ function DetailsPopup({
               <></>
             )}
           </div> */}
-          <h3 className="text-sm font-medium">Details about the role</h3>
+          <h3 className="text-sm font-medium">Job description</h3>
           <Textarea
             value={objective}
             className="h-24 mt-2 border-2 border-gray-500 w-[33.2rem]"
-            placeholder="e.g. Find best candidates based on their technical skills and previous projects."
+            placeholder="e.g. Minimum qualifications
+Pursuing a PhD program with a focus on subjects in software development or other technical related fields.
+Experience in Software Development and coding in one or more of the following: Python or C++.
+Experience with data structures or algorithms gathered from inside or outside of school or work."
             onChange={(e) => setObjective(e.target.value)}
             onBlur={(e) => setObjective(e.target.value.trim())}
           />
