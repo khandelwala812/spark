@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { PlayCircleIcon, SpeechIcon } from "lucide-react";
+import { PlayCircleIcon, SpeechIcon, BookOpen } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
 function SideMenu() {
@@ -14,26 +14,23 @@ function SideMenu() {
         <div className="flex flex-col justify-between gap-2">
           <div
             className={`flex flex-row p-3 rounded-md hover:bg-slate-200 cursor-pointer ${
-              pathname.endsWith("/dashboard") ||
-              pathname.includes("/interviews")
+              pathname === "/dashboard" || pathname.includes("/interviews")
                 ? "bg-indigo-200"
                 : "bg-slate-100"
             }`}
             onClick={() => router.push("/dashboard")}
           >
             <PlayCircleIcon className="font-thin	 mr-2" />
-            <p className="font-medium ">Interviews</p>
+            <p className="font-medium ">Practice</p>
           </div>
           <div
             className={`flex flex-row p-3 rounded-md hover:bg-slate-200 cursor-pointer ${
-              pathname.endsWith("/interviewers")
-                ? "bg-indigo-200"
-                : "bg-slate-100"
+              pathname === "/dashboard/learn" ? "bg-indigo-200" : "bg-slate-100"
             }`}
-            onClick={() => router.push("/dashboard/interviewers")}
+            onClick={() => router.push("/dashboard/learn")}
           >
-            <SpeechIcon className="font-thin mr-2" />
-            <p className="font-medium ">Interviewers</p>
+            <BookOpen className="font-thin	 mr-2" />
+            <p className="font-medium ">Learn</p>
           </div>
         </div>
       </div>
