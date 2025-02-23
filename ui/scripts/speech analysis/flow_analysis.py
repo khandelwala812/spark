@@ -327,7 +327,7 @@ def getPronunciationPercentageCorrect(wavFile, pathToDir):
         min = 100 * ((1/100.0) ** 3)
         max = 100 * ((100/100.0) ** 3)
         trans = 100 * ((b/100.0) ** 3)
-        return 1 + (trans - min) * 99 / (max - min)
+        print(40 + (trans - min) * 60 / (max - min))
     except:
         pass
         #print("Try again the sound of the audio was not clear")
