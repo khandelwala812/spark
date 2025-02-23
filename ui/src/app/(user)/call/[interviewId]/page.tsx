@@ -28,7 +28,7 @@ function PopupLoader() {
           <LoaderWithText />
         </div>
       </div>
-      <a
+      {/* <a
         className="flex flex-row justify-center align-middle mt-3"
         href="https://folo-up.co/"
         target="_blank"
@@ -41,7 +41,7 @@ function PopupLoader() {
           </span>
         </div>
         <ArrowUpRightSquareIcon className="h-[1.5rem] w-[1.5rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-indigo-500" />
-      </a>
+      </a> */}
     </div>
   );
 }
@@ -62,7 +62,7 @@ function PopUpMessage({ title, description, image }: PopupProps) {
           <p>{description}</p>
         </div>
       </div>
-      <a
+      {/* <a
         className="flex flex-row justify-center align-middle mt-3"
         href="https://folo-up.co/"
         target="_blank"
@@ -75,7 +75,7 @@ function PopUpMessage({ title, description, image }: PopupProps) {
           </span>
         </div>
         <ArrowUpRightSquareIcon className="h-[1.5rem] w-[1.5rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-indigo-500" />
-      </a>
+      </a> */}
     </div>
   );
 }
@@ -140,7 +140,7 @@ function InterviewInterface({ params }: Props) {
             inconvenience caused.{" "}
           </p>
         </div>
-        <div className="text-center text-md font-semibold mr-2 my-5">
+        {/* <div className="text-center text-md font-semibold mr-2 my-5">
           Powered by{" "}
           <a
             className="font-bold underline"
@@ -149,7 +149,7 @@ function InterviewInterface({ params }: Props) {
           >
             Folo<span className="text-indigo-600">Up</span>
           </a>
-        </div>
+        </div> */}
       </div>
     </div>
   );

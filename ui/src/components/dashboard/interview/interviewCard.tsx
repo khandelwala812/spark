@@ -3,8 +3,7 @@ import Image from "next/image";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Copy } from "lucide-react";
-import { CopyCheck } from "lucide-react";
+import { Trash } from "lucide-react";
 import axios from "axios";
 import MiniLoader from "@/components/loaders/mini-loader/miniLoader";
 import { InterviewerService } from "@/services/interviewers.service";
@@ -23,28 +22,28 @@ function InterviewCard({ name, id }: Props) {
   const [responseCount, setResponseCount] = useState<number | null>(null);
   const [isFetching, setIsFetching] = useState(false);
 
-  const copyToClipboard = () => {
-    navigator.clipboard
-      .writeText(base_url + `/call/${id}`)
-      .then(
-        () => {
-          setCopied(true);
-          toast.success(
-            "The link to your interview has been copied to your clipboard.",
-            {
-              position: "bottom-right",
-              duration: 3000,
-            },
-          );
-          setTimeout(() => {
-            setCopied(false);
-          }, 2000);
-        },
-        (err) => {
-          console.log("failed to copy", err.mesage);
-        },
-      );
-  };
+  // const copyToClipboard = () => {
+  //   navigator.clipboard
+  //     .writeText(base_url + `/call/${id}`)
+  //     .then(
+  //       () => {
+  //         setCopied(true);
+  //         toast.success(
+  //           "The link to your interview has been copied to your clipboard.",
+  //           {
+  //             position: "bottom-right",
+  //             duration: 3000,
+  //           },
+  //         );
+  //         setTimeout(() => {
+  //           setCopied(false);
+  //         }, 2000);
+  //       },
+  //       (err) => {
+  //         console.log("failed to copy", err.mesage);
+  //       },
+  //     );
+  // };
 
   return (
     <a
@@ -79,17 +78,15 @@ function InterviewCard({ name, id }: Props) {
           </div>
           <div className="absolute top-2 right-2">
             <Button
-              className={`text-xs text-indigo-600 px-1 h-6  ${
-                copied ? "bg-indigo-300 text-white" : ""
-              }`}
+              className="text-xs text-indigo-600 px-1 h-6"
               variant={"secondary"}
               onClick={(event) => {
                 event.stopPropagation();
                 event.preventDefault();
-                copyToClipboard();
               }}
             >
-              {copied ? <CopyCheck size={16} /> : <Copy size={16} />}
+              {/* {copied ? <CopyCheck size={16} /> : <Copy size={16} />} */}
+              <Trash size={16} />
             </Button>
           </div>
         </CardContent>
