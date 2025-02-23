@@ -16,7 +16,7 @@ import axios from "axios";
 import { RetellWebClient } from "retell-client-js-sdk";
 import MiniLoader from "../loaders/mini-loader/miniLoader";
 import { toast } from "sonner";
-import { isLightColor, testEmail } from "@/lib/utils";
+import { isLightColor } from "@/lib/utils";
 import { ResponseService } from "@/services/responses.service";
 import { Interview } from "@/types/interview";
 import { FeedbackData } from "@/types/response";
@@ -70,7 +70,6 @@ function Call({ interview }: InterviewProps) {
   const [isCalling, setIsCalling] = useState(false);
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
   const [isOldUser, setIsOldUser] = useState<boolean>(false);
   const [callId, setCallId] = useState<string>("");
   const { tabSwitchCount } = useTabSwitchPrevention();
@@ -106,12 +105,6 @@ function Call({ interview }: InterviewProps) {
     return () => clearInterval(intervalId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCalling, time, currentTimeDuration]);
-
-  useEffect(() => {
-    if (testEmail(email)) {
-      setIsValidEmail(true);
-    }
-  }, [email]);
 
   useEffect(() => {
     webClient.on("call_started", () => {
@@ -198,11 +191,11 @@ function Call({ interview }: InterviewProps) {
 
       setCallId(registerCallResponse?.data?.registerCallResponse?.call_id);
 
+      console.log("CREATING RESPONSE")
       await createResponse({
         interview_id: interview.id,
         call_id: registerCallResponse.data.registerCallResponse.call_id,
-        email,
-        name,
+        user_id: '1'
       });
     } else {
       console.log("Failed to register call");

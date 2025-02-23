@@ -46,7 +46,7 @@ function Interviews() {
               {interviews.map((item, index) => (
                 <InterviewCard
                   key={index}
-                  id={String(index)}
+                  id={item.id}
                   name={item.name}
                 />
               ))}

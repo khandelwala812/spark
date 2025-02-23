@@ -23,30 +23,28 @@ function InterviewCard({ name, id }: Props) {
   const [responseCount, setResponseCount] = useState<number | null>(null);
   const [isFetching, setIsFetching] = useState(false);
 
-  // const copyToClipboard = () => {
-  //   navigator.clipboard
-  //     .writeText(
-  //       readableSlug ? `${base_url}/call/${readableSlug}` : (url as string),
-  //     )
-  //     .then(
-  //       () => {
-  //         setCopied(true);
-  //         toast.success(
-  //           "The link to your interview has been copied to your clipboard.",
-  //           {
-  //             position: "bottom-right",
-  //             duration: 3000,
-  //           },
-  //         );
-  //         setTimeout(() => {
-  //           setCopied(false);
-  //         }, 2000);
-  //       },
-  //       (err) => {
-  //         console.log("failed to copy", err.mesage);
-  //       },
-  //     );
-  // };
+  const copyToClipboard = () => {
+    navigator.clipboard
+      .writeText(base_url + `/call/${id}`)
+      .then(
+        () => {
+          setCopied(true);
+          toast.success(
+            "The link to your interview has been copied to your clipboard.",
+            {
+              position: "bottom-right",
+              duration: 3000,
+            },
+          );
+          setTimeout(() => {
+            setCopied(false);
+          }, 2000);
+        },
+        (err) => {
+          console.log("failed to copy", err.mesage);
+        },
+      );
+  };
 
   return (
     <a
@@ -88,7 +86,7 @@ function InterviewCard({ name, id }: Props) {
               onClick={(event) => {
                 event.stopPropagation();
                 event.preventDefault();
-                // copyToClipboard();
+                copyToClipboard();
               }}
             >
               {copied ? <CopyCheck size={16} /> : <Copy size={16} />}

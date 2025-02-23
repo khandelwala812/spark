@@ -3,18 +3,17 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 const supabase = createClientComponentClient();
 
 const createResponse = async (payload: any) => {
-  const { error, data } = await supabase
-    .from("response")
-    .insert({ ...payload })
-    .select("id");
+  try {
+    const { error, data } = await supabase
+      .from("response")
+      .insert({ ...payload })
+      .select("id");
 
-  if (error) {
+    return data ? data[0]?.id : null;
+  } catch (error) {
     console.log(error);
-
-    return [];
+    return null;
   }
-
-  return data[0]?.id;
 };
 
 const saveResponse = async (payload: any, call_id: string) => {
