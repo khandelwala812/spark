@@ -16,6 +16,10 @@ function Interviews() {
   const { interviews, interviewsLoading, fetchInterviews } = useInterviews();
   // const [loading, setLoading] = useState<boolean>(true);
   
+  useEffect(() => {
+    fetchInterviews()
+  }, [])
+
   function InterviewsLoader() {
     return (
       <>
